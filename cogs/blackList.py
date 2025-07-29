@@ -13,7 +13,6 @@ class blackListCommandGroup(app_commands.Group):
     @app_commands.describe(serverid = 'Enter Serverid',password='Enter password')
     async def blackList(self, interaction: discord.Interaction, serverid: str, password:str = None):
         await interaction.response.defer(thinking=True)
-        print('[+] Nhận add')
         if not interaction.user.guild_permissions.administrator:
             await interaction.followup.send(f"You do not have enough permissions to connect.")
             return
@@ -25,21 +24,16 @@ class blackListCommandGroup(app_commands.Group):
         with open(gatePath, 'r', encoding='utf-8') as f:
             data =  json.load(f)
         hashPassword = data['password']
-        print('[+] đã lấy data từ gate')
         if not serverid.isdigit():
-            print(1)
             await interaction.followup.send('serverid can only contain numbers')
             return
         if not password:
-            print(2)
             if interaction.user.id == data['ownerId']:
-                print(2)
                 data['blackList'].append(serverid)
                 await interaction.followup.send(f"added {serverid} to the blacklist")
             else:
                 await interaction.followup.send(f"You need to enter the password.")
         else:
-            print(3)
             password = hashlib.sha512(password.encode())
             password = password.hexdigest()
             if password == hashPassword:

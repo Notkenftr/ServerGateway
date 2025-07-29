@@ -55,7 +55,7 @@ async def on_message(message: discord.Message):
             if os.path.exists(idGate):
                 with open(idGate, 'r', encoding='utf-8') as f:
                     idData = yaml.load(f, Loader=yaml.SafeLoader)
-                if idData['serverId'] in message.guild.id:
+                if str(idData['serverId']) in data['blackList']:
                     return
                 message = message.content
                 message = filter(message)
