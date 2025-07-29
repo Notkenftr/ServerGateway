@@ -1,6 +1,7 @@
 import json
 import os.path
 
+import hashlib
 import discord
 from discord.ext import commands
 from discord import app_commands
@@ -19,8 +20,22 @@ class blackListCommandGroup(app_commands.Group):
         gatePath = os.path.join(baseDir, 'database', f'{interaction.channel.id}.json')
         if not os.path.exists(gatePath):
             await interaction.followup.send(f"This channel does not have a gate yet.")
+            return
         with open(gatePath, 'r', encoding='utf-8') as f:
             data =  json.load(f)
+        hashPassword = data['password']
         if not serverid.isdigit():
             await interaction.followup.send('serverid can only contain numbers')
-        data['blackList'].append(serverid)
+            return
+        if not password:
+            if interaction.user.id == data['ownerId']:
+                data['blackList'].append(serverid)
+            else:
+                await interaction.followup.send(f"You need to enter the password.")
+        else:
+            password = hashlib.sha512(password.encode())
+            password = password.hexdigest()
+            if password == hashPassword:
+                data['blackList'].append(serverid)
+            else:
+                await interaction.followup.send(f"The password is incorrect")

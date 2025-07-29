@@ -8,6 +8,7 @@ from discord import SyncWebhook
 from cogs.create import createCommand
 from cogs.remove import removeCommand
 from cogs.connect import connect
+from cogs.blackList import blackListCommandGroup
 #firewalla
 from firewall.filter import filter
 
@@ -24,6 +25,7 @@ os.makedirs(db_dir, exist_ok=True)
 @app.event
 async def on_ready():
     app.tree.add_command(createCommand())
+    app.tree.add_command(blackListCommandGroup())
     await app.add_cog(removeCommand())
     await app.add_cog(connect())
     await app.tree.sync()

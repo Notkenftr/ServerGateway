@@ -36,7 +36,7 @@ class connect(commands.Cog):
                 data['linkList'].append(interaction.channel.id)
                 await interaction.followup.send(f"successful connection")
             else:
-                await interaction.followup.send(f"Bạn cần nhập mật khẩu")
+                await interaction.followup.send(f"You need to enter the password.")
         else:
             password = hashlib.sha512(password.encode())
             password = password.hexdigest()
