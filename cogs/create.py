@@ -16,6 +16,9 @@ class createCommand(app_commands.Group):
     @app_commands.describe(password='Enter password')
     async def createGateWay(self, interaction: discord.Interaction,password:str):
         await interaction.response.defer(thinking=True)
+        if not interaction.user.guild_permissions.administrator:
+            await interaction.followup.send(f"You do not have enough permissions to connect.")
+            return
         try:
             base = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
             jsonPath = os.path.join(base, "database", f'{interaction.channel.id}.json')

@@ -39,3 +39,11 @@ class blackListCommandGroup(app_commands.Group):
                 data['blackList'].append(serverid)
             else:
                 await interaction.followup.send(f"The password is incorrect")
+    @app_commands.command(name='remove', description='remove server id from the blacklist')
+    @app_commands.describe(serverid = 'Enter Serverid',gateid= "Enter Gate id",password='Enter password')
+    async def remove(self,interaction: discord.Interaction, gateid: str, password:str =  None):
+        await interaction.response.defer(thinking=True)
+        if not interaction.user.guild_permissions.administrator:
+            await interaction.followup.send(f"You do not have enough permissions to connect.")
+            return
+

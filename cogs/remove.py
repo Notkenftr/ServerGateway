@@ -13,6 +13,9 @@ class removeCommand(commands.Cog):
     @app_commands.describe(gateid='Enter gate id (channel id)', password='Enter password')
     async def delete(self,interaction: discord.Interaction, gateid: str, password: str = None):
         await interaction.response.defer(thinking=True)
+        if not interaction.user.guild_permissions.administrator:
+            await interaction.followup.send(f"You do not have enough permissions to connect.")
+            return
         message =  await interaction.followup.send(f"Verifying..")
         baseDir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
         gatePath = os.path.join(baseDir, 'database', f'{gateid}.json')
@@ -23,7 +26,7 @@ class removeCommand(commands.Cog):
         ownerId = data['ownerId']
         hashPassword = data['password']
         if not password:
-            if interaction.user.id == ownerId  or interaction.user.guild_permissions.administrator:
+            if interaction.user.id == ownerId:
                 os.remove(gatePath)
                 await interaction.followup.send(f"Gate has been deleted")
             else:
