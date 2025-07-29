@@ -16,9 +16,11 @@ with open('config.yml', 'r', encoding='utf-8') as f:
     data = yaml.load(f, Loader=yaml.SafeLoader)
 token = data['Token']
 
-messageToken = {
+baseDir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+db_dir = os.path.join(baseDir, "database")
+os.makedirs(db_dir, exist_ok=True)
 
-}
+
 @app.event
 async def on_ready():
     app.tree.add_command(createCommand())
