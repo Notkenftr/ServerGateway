@@ -47,6 +47,8 @@ async def on_message(message: discord.Message):
     if os.path.exists(gatePath):
         with open(gatePath, 'r', encoding='utf-8') as f:
             data = yaml.load(f, Loader=yaml.SafeLoader)
+        if message.guild.id in data['blackList']:
+            return
         linkList = data['linkList']
         for id in linkList:
             idGate = os.path.join(baseDir, 'database', f"{id}.json")
