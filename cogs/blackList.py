@@ -27,14 +27,19 @@ class blackListCommandGroup(app_commands.Group):
         hashPassword = data['password']
         print('[+] đã lấy data từ gate')
         if not serverid.isdigit():
+            print(1)
             await interaction.followup.send('serverid can only contain numbers')
             return
         if not password:
+            print(2)
             if interaction.user.id == data['ownerId']:
+                print(2)
                 data['blackList'].append(serverid)
+                await interaction.followup.send(f"added {serverid} to the blacklist")
             else:
                 await interaction.followup.send(f"You need to enter the password.")
         else:
+            print(3)
             password = hashlib.sha512(password.encode())
             password = password.hexdigest()
             if password == hashPassword:

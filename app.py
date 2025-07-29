@@ -49,14 +49,14 @@ async def on_message(message: discord.Message):
     if os.path.exists(gatePath):
         with open(gatePath, 'r', encoding='utf-8') as f:
             data = yaml.load(f, Loader=yaml.SafeLoader)
-        if message.guild.id in data['blackList']:
-            return
         linkList = data['linkList']
         for id in linkList:
             idGate = os.path.join(baseDir, 'database', f"{id}.json")
             if os.path.exists(idGate):
                 with open(idGate, 'r', encoding='utf-8') as f:
                     idData = yaml.load(f, Loader=yaml.SafeLoader)
+                if idData['serverId'] in message.guild.id:
+                    return
                 message = message.content
                 message = filter(message)
                 webhook = SyncWebhook.from_url(url=idData['webhookUrl'])
