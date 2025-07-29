@@ -13,6 +13,7 @@ class blackListCommandGroup(app_commands.Group):
     @app_commands.describe(serverid = 'Enter Serverid',password='Enter password')
     async def blackList(self, interaction: discord.Interaction, serverid: str, password:str = None):
         await interaction.response.defer(thinking=True)
+        print('[+] Nhận add')
         if not interaction.user.guild_permissions.administrator:
             await interaction.followup.send(f"You do not have enough permissions to connect.")
             return
@@ -24,6 +25,7 @@ class blackListCommandGroup(app_commands.Group):
         with open(gatePath, 'r', encoding='utf-8') as f:
             data =  json.load(f)
         hashPassword = data['password']
+        print('[+] đã lấy data từ gate')
         if not serverid.isdigit():
             await interaction.followup.send('serverid can only contain numbers')
             return
@@ -40,6 +42,8 @@ class blackListCommandGroup(app_commands.Group):
                 await interaction.followup.send(f"added {serverid} to the blacklist")
             else:
                 await interaction.followup.send(f"The password is incorrect")
+        with open(gatePath, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=4)
     @app_commands.command(name='remove', description='remove server id from the blacklist')
     @app_commands.describe(serverid = 'Enter Serverid',password='Enter password')
     async def remove(self,interaction: discord.Interaction, serverid: str, password:str =  None):
@@ -64,3 +68,13 @@ class blackListCommandGroup(app_commands.Group):
                 await interaction.followup.send(f'removed {serverid} from the blacklist')
             else:
                 await interaction.followup.send(f"You need to enter the password.")
+        else:
+            password = hashlib.sha512(password.encode())
+            password = password.hexdigest()
+            if password == hashPassword:
+                data['blackList'].append(serverid)
+                await interaction.followup.send(f"removed {serverid} from the blacklist")
+            else:
+                await interaction.followup.send(f"The password is incorrect")
+        with open(gatePath, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=4)
