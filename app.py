@@ -9,7 +9,8 @@ from cogs.create import createCommand
 from cogs.remove import removeCommand
 from cogs.connect import connect
 from cogs.blackList import blackListCommandGroup
-#firewalla
+from cogs.deconnect import deconnect
+#firewall
 from firewall.filter import filter
 
 app = commands.Bot(command_prefix='!', intents=discord.Intents.all())
@@ -28,6 +29,7 @@ async def on_ready():
     app.tree.add_command(blackListCommandGroup())
     await app.add_cog(removeCommand())
     await app.add_cog(connect())
+    await app.add_cog(deconnect())
     await app.tree.sync()
     print(f"[+] Bot đã chạy")
 
@@ -57,14 +59,22 @@ async def on_message(message: discord.Message):
                     idData = yaml.load(f, Loader=yaml.SafeLoader)
                 if str(idData['serverId']) in data['blackList']:
                     return
-                message = message.content
-                message = filter(message)
                 webhook = SyncWebhook.from_url(url=idData['webhookUrl'])
-                webhook.send(
-                    username=name,
-                    avatar_url=avatar_url,
-                    content=message
-                )
+                if message.content.strip() == "" and message.emojis:
+                    for emoji in message.emojis:
+                        webhook.send(
+                            username=name,
+                            avatar_url=avatar_url,
+                            content=emoji.url
+                        )
+                else:
+                    content = message.content
+                    content = filter(content)
+                    webhook.send(
+                        username=name,
+                        avatar_url=avatar_url,
+                        content=content
+                    )
         pass
     else:
         return
