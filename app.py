@@ -1,3 +1,4 @@
+#v1.0
 import os
 
 import yaml
@@ -10,7 +11,7 @@ from cogs.remove import removeCommand
 from cogs.connect import connect
 from cogs.blackList import blackListCommandGroup
 from cogs.deconnect import deconnect
-#firewall
+#firewal
 from firewall.filter import filter
 
 app = commands.Bot(command_prefix='!', intents=discord.Intents.all())
