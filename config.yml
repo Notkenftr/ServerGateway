@@ -1,3 +1,27 @@
-Token: ""
+#   ___                         ___      _     __      __
+# / __| ___ _ ___ _____ _ _   / __|__ _| |_ __\ \    / /_ _ _  _
+# \__ \/ -_) '_\ V / -_) '_| | (_ / _` |  _/ -_) \/\/ / _` | || |
+# |___/\___|_|  \_/\___|_|    \___\__,_|\__\___|\_/\_/\__,_|\_, |
+#                                                           |__/
+#  📫 version: 1.2
+#  🐧 made by kenftr
+#   https://github.com/Notkenftr/ServerGateway
+#   server gateway invite url: https://discord.com/oauth2/authorize?client_id=1112977371721650277
 
-languare: 'en'
+# ==========
+#   Main
+# ==========
+Bot_Token: ""
+
+# ==========
+#   statics
+# ==========
+Statics:
+  enable: false
+  channelId: 00000000000000 #channel id  to send statics
+  sendAfter: 100 #100 message => send
+
+
+blockMention: false
+blockBlackListWord: false
+language: 'en'
