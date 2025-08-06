@@ -75,8 +75,8 @@ class createCommand(app_commands.Group):
             )
             await interaction.followup.send(embed=embed)
     @app_commands.command(name='shard', description='create a shard gateway')
-    @app_commands.describe(shardName='Enter shard name')
-    async def createGlobal(self, interaction: discord.Interaction, shardName: str):
+    @app_commands.describe(shardname='Enter shard name')
+    async def createGlobal(self, interaction: discord.Interaction, shardname: str):
         if not interaction.user.guild_permissions.administrator:
             await interaction.followup.send(f"You do not have enough permissions to connect.")
             return

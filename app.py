@@ -73,7 +73,7 @@ async def on_message(message: discord.Message):
     baseDir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
     gatePath = os.path.join(baseDir, 'database', f"{message.channel.id}.json")
     if os.path.exists(gatePath):
-        global totalReq, staticMessage
+        global totalReq, staticsMessage
         totalReq += 1
         if statisc_enable == True:
             await sendStatics(app=app,statisc_channelId=statisc_channelId, totalReq=totalReq,staticMessage=staticsMessage)
