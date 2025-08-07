@@ -1,16 +1,12 @@
 #v1.2
-import datetime
 import os
 import time
-from sys import intern
-
-import psutil
-
 import yaml
 import discord
 from discord.ext import commands
 from discord import SyncWebhook
 #utils
+from lib import Logger
 from utils.sendStatics import sendStatics
 #cogs
 from cogs.create import createCommand
@@ -24,6 +20,7 @@ from firewall.filter import filter
 app = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 with open('config.yml', 'r', encoding='utf-8') as f:
     data = yaml.load(f, Loader=yaml.SafeLoader)
+Logger.Info("Loading config..")
 #main
 main_token = data['Bot_Token']
 main_language = data['language']
@@ -43,40 +40,65 @@ staticsMessage = None
 startTime = time.time()
 
 baseDir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+log_dir = os.path.join(baseDir, 'logs')
 db_dir = os.path.join(baseDir, "database")
-os.makedirs(db_dir, exist_ok=True)
-
+cache_dir = os.path.join(baseDir, "cache")
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir, exist_ok=True)
+    Logger.Warn("Logs path does not exist, recreating it.")
+else:
+    Logger.Success("Log path exists")
+if not os.path.exists(db_dir):
+    os.makedirs(db_dir, exist_ok=True)
+    Logger.Warn("Database path does not exist, recreating it.")
+else:
+    Logger.Success("Database path exists")
+if not os.path.exists(cache_dir):
+    Logger.Warn("Cache path does not exist, recreating it.")
+    os.makedirs(cache_dir, exist_ok=True)
+else:
+    Logger.Success("Cache path exists")
+Logger.Info("Done...")
 
 @app.event
 async def on_ready():
+    Logger.Info("Run bot...")
+    Logger.Info("Sync commands")
     app.tree.add_command(createCommand())
     app.tree.add_command(blackListCommandGroup())
     await app.add_cog(removeCommand())
     await app.add_cog(connect())
     await app.add_cog(deconnect())
     await app.tree.sync()
-    print(f"[+] Bot đã chạy")
+    Logger.Info(f"Bot has run with the name {app.user}")
 
 @app.event
 async def on_message(message: discord.Message):
     #auth
     if message.author.bot:
         return
+    Logger.Info(f"{message.author} -> {message.content}")
     if len(message.mentions) > 3:
         return
     if len(message.role_mentions) > 3:
         return
     #author
-    name = message.author.name
-    avatar_url = (message.author.avatar or message.author.default_avatar).url
+    Logger.Info("Get name and avatar url")
+    try:
+        name = message.author.name
+        avatar_url = (message.author.avatar or message.author.default_avatar).url
+    except Exception as e:
+        Logger.Error(f"{e}")
     #check
     baseDir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
     gatePath = os.path.join(baseDir, 'database', f"{message.channel.id}.json")
     if os.path.exists(gatePath):
         global totalReq, staticsMessage
         totalReq += 1
+        print(totalReq, staticsMessage)
         if statisc_enable == True:
-            await sendStatics(app=app,statisc_channelId=statisc_channelId, totalReq=totalReq,staticMessage=staticsMessage)
+            print('call send statics')
+            await sendStatics(app=app,statisc_channelId=statisc_channelId, totalReq=totalReq,staticMessage=staticsMessage, startTime=startTime)
         else:
             pass
         with open(gatePath, 'r', encoding='utf-8') as f:
