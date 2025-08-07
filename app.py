@@ -77,7 +77,6 @@ async def on_message(message: discord.Message):
     #auth
     if message.author.bot:
         return
-    Logger.Info(f"{message.author} -> {message.content}")
     if len(message.mentions) > 3:
         return
     if len(message.role_mentions) > 3:
@@ -94,6 +93,7 @@ async def on_message(message: discord.Message):
     gatePath = os.path.join(baseDir, 'database', f"{message.channel.id}.json")
     if os.path.exists(gatePath):
         global totalReq, staticsMessage
+        Logger.Info(f"{message.author} -> {message.content}")
         totalReq += 1
         print(totalReq, staticsMessage)
         if statisc_enable == True:
