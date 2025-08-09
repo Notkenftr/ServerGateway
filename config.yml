@@ -1,0 +1,73 @@
+#   ___                         ___      _     __      __
+# / __| ___ _ ___ _____ _ _   / __|__ _| |_ __\ \    / /_ _ _  _
+# \__ \/ -_) '_\ V / -_) '_| | (_ / _` |  _/ -_) \/\/ / _` | || |
+# |___/\___|_|  \_/\___|_|    \___\__,_|\__\___|\_/\_/\__,_|\_, |
+#                                                           |__/
+#  📫 version: 1.2
+#  🐧 made by kenftr
+#   https://github.com/Notkenftr/ServerGateway
+#   server gateway invite url: https://discord.com/oauth2/authorize?client_id=1112977371721650277
+
+# ==========
+#   Main
+# ==========
+Bot_Token: ''
+mode:
+  node:
+    enable: false
+    main: true
+    shard: false
+
+
+# ==========
+#   statics
+# ==========
+Statics:
+  enable: true
+  channelId: 1401453599992844308 #channel id  to send statics
+  sendAfter: 2 #100 message => send
+
+# ==========
+#   firewall
+# ==========
+blackListWord: [
+    "porn", "sex", "nude", "boobs", "pussy", "ass", "fuck", "bitch", "dick", "cock",
+    "hentai", "xxx", "milf", "anal", "blowjob", "fap", "naked", "cum", "nsfw", "deepfake",
+    "scam", "phishing", "grabify", "iplogger", "malware", "trojan", "virus", "rat", "keylogger",
+    "discord.gg", "invite", "dm me", "free nitro", "steam gift", "robux", "nitro generator",
+    "click here", "giveaway", "win", "bitcoin", "crypto", "cheap", "promotion", "limited offer",
+    "earn money", "onlyfans", "telegram", "telegram group", "snapchat", "whatsapp", "adult",
+    "suck", "rape", "slut", "horny", "s3x", "seggs", "breast", "kys", "kill yourself"
+]
+block:
+  maxMessageLenght: -1 #-1 = disable
+  maxRoleMention: 3 #-1 = disable
+  maxMention: 3 #-1 = disable
+  blockMention: false
+  blockBlackListWord: false
+
+# ==========
+#   api
+# ==========
+api:
+  enable: false
+  host: '0.0.0.0'
+  port: 8080
+  getStatics: '/static'
+
+apiSecurity:
+  enable: false
+  key: '85519b31e63a14b8f4845b14e3c12b128ebb65c4f21f31a2b96d3d49341e58a3'
+  hash: 'sha256'
+  blockIPs:
+    - ''
+  rateLimit:
+    enable: true
+    requestsPerMinute: 60
+    timeout: 10
+# ==========
+#   orther
+# ==========
+debug: false
+lightWeight: false
+language: 'en'
