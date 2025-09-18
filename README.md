@@ -50,22 +50,23 @@ graph TD
 > ```
 
 
-## License
+# License
 
-This project is licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**.
+This project is licensed under the MIT License.
 
 You are free to:
 
-- ✅ Use this project for personal or commercial purposes
-- ✅ Modify and adapt it to your needs
-- ✅ Distribute it, with or without modifications
+✅ Use this project for personal or commercial purposes
 
-**However**, you must:
+✅ Modify and adapt it to your needs
 
-- 🔓 Keep the source code **public** if you distribute or deploy a modified version (even as a web service)
-- 📄 Include this license and credit the original author
-- 🔁 Share any modifications under the same license
+✅ Distribute it, with or without modifications
 
-**In short:** If you use this project or create a fork, your version must remain **open source**.
+However, you must:
 
-[Learn more about AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.en.html)
+📄 Include this license and credit the original author (kenftr)
+
+In short: The software is provided "as-is", without warranty of any kind.
+
+Learn more about MIT License
+)
